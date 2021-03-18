@@ -20,11 +20,6 @@ namespace DeviceToIoTHub
 
         static void Main(string[] args)
         {
-            s_deviceClient = DeviceClient.CreateFromConnectionString(s_connectionString01, TransportType.Mqtt);
-            SendDeviceToCloudMessagesAsync(s_deviceClient);
-            Console.ReadLine();
-
-
             Init().Wait();
 
             // Wait until the app unloads or is cancelled
@@ -53,7 +48,7 @@ namespace DeviceToIoTHub
                     var message = new Message(Encoding.ASCII.GetBytes(messageString));
 
                     await s_deviceClient.SendEventAsync(message);
-                    Console.WriteLine("Sending Message: ");
+                    Console.WriteLine("Sending Message... ");
                     await Task.Delay(1000 * 10);
                 }
 
@@ -90,6 +85,10 @@ namespace DeviceToIoTHub
 
             // Register callback to be called when a message is received by the module
             await ioTHubModuleClient.SetInputMessageHandlerAsync("input1", PipeMessage, ioTHubModuleClient);
+
+            s_deviceClient = DeviceClient.CreateFromConnectionString(s_connectionString01, TransportType.Mqtt);
+            SendDeviceToCloudMessagesAsync(s_deviceClient);
+            Console.ReadLine();
         }
 
         /// <summary>
