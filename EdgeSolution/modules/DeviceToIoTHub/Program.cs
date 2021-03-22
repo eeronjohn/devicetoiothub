@@ -43,13 +43,22 @@ namespace DeviceToIoTHub
                         time = timeNow
                     };
                     string messageString = "";
-
                     messageString = JsonConvert.SerializeObject(telemetryDataPoint);
-                    var message = new Message(Encoding.ASCII.GetBytes(messageString));
+                    byte[] messageBytes = Encoding.UTF8.GetBytes(messageString);                
+                    //var message = new Message(Encoding.ASCII.GetBytes(messageString));
 
-                    await s_deviceClient.SendEventAsync(message);
-                    Console.WriteLine("Sending Message... ");
-                    await Task.Delay(1000 * 10);
+                    using(var message = new Message(messageBytes))
+                    {
+                        message.ContentEncoding = "utf-8";
+                        message.ContentType = "application/json";
+
+                        //custom properties
+                        message.Properties["Status"] = "Active";
+                        
+                        await s_deviceClient.SendEventAsync(message);
+                        Console.WriteLine("Sending Message... ");
+                        await Task.Delay(1000 * 60);
+                    }  
                 }
 
             }
