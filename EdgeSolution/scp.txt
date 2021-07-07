@@ -1,0 +1,3 @@
+scp ava@172.18.0.1:/var/custom-configs/home/ava/edgeAgent_logs_6-17.txt eeron.john.pascual@175.176.24.156:/C:/Users/eeron.john.pascual/Desktop
+
+scp -r /var/custom-configs/home/ava/edgeAgent_logs_6-17.txt eeron.john.pascual@175.176.24.156:/C:/
